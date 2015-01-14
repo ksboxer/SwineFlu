@@ -5,6 +5,7 @@
 #include <ws2tcpip.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "Networking.h"
 
 
 // Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
@@ -17,9 +18,9 @@
 #define DEFAULT_PORT "27015"
 #define DEFAULT_HOST "localhost"
 
-class Networking {
-public:
-	int __cdecl extract(char *sendbuf, int length) {
+namespace SwineNetworking {
+	int Networking::extract(char *sendbuf, int length) {
+		return 5;
 		WSADATA wsaData;
 		SOCKET ConnectSocket = INVALID_SOCKET;
 		struct addrinfo *result = NULL, *ptr = NULL, hints;
@@ -115,4 +116,4 @@ public:
 
 		return 0;
 	}
-
+}
