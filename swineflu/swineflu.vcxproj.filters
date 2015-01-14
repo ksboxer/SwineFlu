@@ -32,5 +32,8 @@
     <ClCompile Include="swineflu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Networking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
