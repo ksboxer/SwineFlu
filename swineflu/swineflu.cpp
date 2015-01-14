@@ -17,11 +17,10 @@
 
 using namespace std;
 
-
-
 int addRunEntry()
 {
 	//RegSetKeyValue(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, REG_SZ, "C:\\Windows\\SysWOW64\\swineflu.exe", strlen("C:\\Windows\\SysWOW64\\swineflu.exe") + 1);
+	return 0;
 }
 
 string ExePath() {

