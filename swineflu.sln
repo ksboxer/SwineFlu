@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Networking", "Networking\Ne
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "UnitTest1\UnitTest1.vcxproj", "{68E323A2-2386-4703-9D74-5EC9009BC0D0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Injector", "ConsoleApplication1\ConsoleApplication1.vcxproj", "{E9C0E685-1BC7-4155-BC30-16B4BF82E905}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,10 @@ Global
 		{68E323A2-2386-4703-9D74-5EC9009BC0D0}.Debug|Win32.Build.0 = Debug|Win32
 		{68E323A2-2386-4703-9D74-5EC9009BC0D0}.Release|Win32.ActiveCfg = Release|Win32
 		{68E323A2-2386-4703-9D74-5EC9009BC0D0}.Release|Win32.Build.0 = Release|Win32
+		{E9C0E685-1BC7-4155-BC30-16B4BF82E905}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E9C0E685-1BC7-4155-BC30-16B4BF82E905}.Debug|Win32.Build.0 = Debug|Win32
+		{E9C0E685-1BC7-4155-BC30-16B4BF82E905}.Release|Win32.ActiveCfg = Release|Win32
+		{E9C0E685-1BC7-4155-BC30-16B4BF82E905}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

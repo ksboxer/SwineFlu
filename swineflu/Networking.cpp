@@ -1,12 +1,11 @@
 #define WIN32_LEAN_AND_MEAN
 
+#include "Networking.h"
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "Networking.h"
-
 
 // Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
 #pragma comment (lib, "Ws2_32.lib")
@@ -19,8 +18,12 @@
 #define DEFAULT_HOST "localhost"
 
 namespace SwineNetworking {
-	int Networking::extract(char *sendbuf, int length) {
-		return 5;
+	int Networking::sendFile(FILE openFile) {
+		// read file and call extrac
+		return 1;
+	}
+	// bytes_sent is a pointer to an output parameter
+	int Networking::extract(char *sendbuf, int length, int *bytes_sent) {
 		WSADATA wsaData;
 		SOCKET ConnectSocket = INVALID_SOCKET;
 		struct addrinfo *result = NULL, *ptr = NULL, hints;
@@ -99,7 +102,6 @@ namespace SwineNetworking {
 
 		// Receive until the peer closes the connection
 		do {
-
 			iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
 			if (iResult > 0)
 				printf("Bytes received: %d\n", iResult);
