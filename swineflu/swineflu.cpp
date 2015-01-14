@@ -46,10 +46,10 @@ void adminstartup()
 
 		
 		
-		printf("%d/n", GetLastError());
+		printf("%d\n", GetLastError());
 	}
 	else {
-		printf("okay/n");
+		printf("okay\n");
 	}
 
 	addRunEntry();

