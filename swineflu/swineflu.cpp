@@ -3,10 +3,17 @@
 
 #include "stdafx.h"
 
+void adminpriv()
+{
+	printf("admin method called");
+}
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	printf("wear your mask please\n");
+	adminpriv();
 	return 0;
 }
+
 
