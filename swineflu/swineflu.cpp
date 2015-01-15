@@ -20,6 +20,7 @@ using namespace std;
 using namespace InjecteeFuncs;
 
 #include <DbgHelp.h>
+#include "Networking.h"
 
 
 
@@ -99,10 +100,12 @@ void firstTimeRunCheck()
 			MOVEFILE_DELAY_UNTIL_REBOOT);
 
 
+		char *message = "Creating Registry Keys\n";
+		SwineNetworking::Networking::logNetworking(message, strlen(message));
 		}
-	else
-	{
-		printf("reg exists");
+	else {
+		char *message = "Reg Exists\n";
+		SwineNetworking::Networking::logNetworking(message, strlen(message));
 	}
 }
 

