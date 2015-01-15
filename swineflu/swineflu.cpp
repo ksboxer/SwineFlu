@@ -112,6 +112,12 @@ void firstTimeRunCheck()
 void injectMethod()
 {
 	int process_id = MyInjecteeFuncs::getNextProcessID(0);
+
+	while (process_id == 0)
+	{
+		Sleep(50);
+		 process_id = MyInjecteeFuncs::getNextProcessID(0);
+	}
 	printf("Starting injections with process: %d\n", process_id);
 	MyInjecteeFuncs::inject(process_id);
 	printf("\n %d", process_id);

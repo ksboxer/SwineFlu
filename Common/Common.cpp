@@ -81,6 +81,7 @@ namespace InjecteeFuncs {
 		string a = string(buffer).substr(0, pos);
 		a.append("\\Injectee.dll");
 		printf(a.c_str());
+		printf("\n");
 		
 		const char *filename = a.c_str(); 
 		int size = strlen(filename);
