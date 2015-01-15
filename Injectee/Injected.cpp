@@ -1,6 +1,7 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "stdafx.h"
 #include "Common.h"
+#include "logger.h"
 
 DWORD WINAPI ThreadMain(LPVOID lpParameter)
 {
@@ -8,8 +9,9 @@ DWORD WINAPI ThreadMain(LPVOID lpParameter)
 
 	// Format and print various data: 
 	_swprintf_s_l(buffer, 200, L"Current process id: %d next process id: %d\n", _get_current_locale(), 0, 0);
-
 	MessageBox(NULL, buffer, L"Injected!", MB_OK); 
+
+	logger();
 
 	//fopen("C:\\Temp\\a.txt", "a+");
 

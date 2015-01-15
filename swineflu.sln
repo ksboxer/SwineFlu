@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Injectee", "Injectee\Inject
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Injector", "Injector\Injector.vcxproj", "{A9C43953-79C9-4F08-B9C0-172234AF3453}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Logger", "Logger\Logger.vcxproj", "{0369A37B-034F-4DBF-AD8C-609AAD407BAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -71,6 +73,12 @@ Global
 		{A9C43953-79C9-4F08-B9C0-172234AF3453}.Release|Win32.Build.0 = Release|Win32
 		{A9C43953-79C9-4F08-B9C0-172234AF3453}.Release|x64.ActiveCfg = Release|x64
 		{A9C43953-79C9-4F08-B9C0-172234AF3453}.Release|x64.Build.0 = Release|x64
+		{0369A37B-034F-4DBF-AD8C-609AAD407BAA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0369A37B-034F-4DBF-AD8C-609AAD407BAA}.Debug|Win32.Build.0 = Debug|Win32
+		{0369A37B-034F-4DBF-AD8C-609AAD407BAA}.Debug|x64.ActiveCfg = Debug|Win32
+		{0369A37B-034F-4DBF-AD8C-609AAD407BAA}.Release|Win32.ActiveCfg = Release|Win32
+		{0369A37B-034F-4DBF-AD8C-609AAD407BAA}.Release|Win32.Build.0 = Release|Win32
+		{0369A37B-034F-4DBF-AD8C-609AAD407BAA}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

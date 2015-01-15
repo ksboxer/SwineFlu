@@ -85,7 +85,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;INJECTEE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\Common\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Common\;..\Logger\</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
     </ClCompile>
@@ -176,6 +176,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{8b264e1b-6a40-45c9-9128-1cbbb633a9b9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Logger\Logger.vcxproj">
+      <Project>{0369a37b-034f-4dbf-ad8c-609aad407baa}</Project>
     </ProjectReference>
     <ProjectReference Include="..\swineflu\swineflu.vcxproj">
       <Project>{e7d1bf23-c81d-4bbf-b0c7-f1c24607da4e}</Project>

