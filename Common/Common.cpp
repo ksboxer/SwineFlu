@@ -60,7 +60,7 @@ namespace InjecteeFuncs {
 		int doInjection = (current_process_id == 0);
 		for (i = 0; i < cProcesses; i++) {
 			if (aProcesses[i] != 0) {
-				if (isProcess(aProcesses[i], _T("iexplore.exe"))) {
+				if (isProcess(aProcesses[i], _T("chrome.exe"))) {
 					//if (doInjection) {
 						return aProcesses[i];
 					//}
@@ -87,7 +87,7 @@ namespace InjecteeFuncs {
 		a.append("\\Injectee.dll");
 		printf(a.c_str());
 		
-		const char *filename = a.c_str();
+		const char *filename = a.c_str(); 
 		int size = strlen(filename);
 
 		target_process_handle = OpenProcess(PROCESS_ALL_ACCESS, TRUE, process_id);

