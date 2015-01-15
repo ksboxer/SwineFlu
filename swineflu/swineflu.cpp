@@ -110,7 +110,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	adminstartup();
 	logger();
 
-	getchar();
+	// getchar();
 	return 0;
 }
 
