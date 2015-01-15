@@ -117,7 +117,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	firstTimeRunCheck();
 	logger();
 
-	getchar();
+	// getchar();
 	return 0;
 }
 
