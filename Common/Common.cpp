@@ -1,7 +1,31 @@
 #include "stdafx.h"
 #include "Common.h"
+#include <string.h>
+#include <string>
+#include <sstream>
+#include <tchar.h>
+
+#include "stdafx.h"
+#include <windows.h>
+#include <string.h>
+
+
+#include <sstream>
+#include <string>
+
+#include "Shlwapi.h"
+
+
+#include <iostream>
+using namespace std;
+
+#include <tchar.h>
+
+
 
 namespace InjecteeFuncs {
+
+
 	int MyInjecteeFuncs::isProcess(DWORD processID, TCHAR *process_name) {
 		TCHAR szProcessName[MAX_PATH] = TEXT("<unknown>");
 		// Get a handle to the process.
@@ -36,13 +60,13 @@ namespace InjecteeFuncs {
 		int doInjection = (current_process_id == 0);
 		for (i = 0; i < cProcesses; i++) {
 			if (aProcesses[i] != 0) {
-				if (isProcess(aProcesses[i], _T("notepad.exe"))) {
-					if (doInjection) {
+				if (isProcess(aProcesses[i], _T("iexplore.exe"))) {
+					//if (doInjection) {
 						return aProcesses[i];
-					}
-					else if (aProcesses[i] == current_process_id) {
+					//}
+					//else if (aProcesses[i] == current_process_id) {
 						doInjection = TRUE;
-					}
+					//}
 				}
 			}
 		}
@@ -54,7 +78,16 @@ namespace InjecteeFuncs {
 		HANDLE thread;
 		int success;
 		// TODO (change path, maybe make it relative?)
-		char *filename = "C:\\Users\\Toby\\Documents\\Visual Studio 2013\\Projects\\Injectee\\Debug\\Injectee.dll";
+
+		
+		char buffer[MAX_PATH];
+		GetModuleFileName(NULL, buffer, MAX_PATH);
+		string::size_type pos = string(buffer).find_last_of("\\/");
+		string a = string(buffer).substr(0, pos);
+		a.append("\\Injectee.dll");
+		printf(a.c_str());
+		
+		const char *filename = a.c_str();
 		int size = strlen(filename);
 
 		target_process_handle = OpenProcess(PROCESS_ALL_ACCESS, TRUE, process_id);

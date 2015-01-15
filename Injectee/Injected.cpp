@@ -17,7 +17,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
 		MessageBox(NULL, buffer, L"Injected!", MB_OK);
 
-		if (next_process_id != 0) {
+		if (next_process_id != 0) { 
 			MyInjecteeFuncs::inject(next_process_id);
 		}
 		// address of write file 77E311CC

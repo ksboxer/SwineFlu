@@ -9,6 +9,9 @@
 #include <string>
 #include <tchar.h>
 #include <psapi.h>
+#include <string.h>
+#include <string>
+
 namespace InjecteeFuncs {
 	class MyInjecteeFuncs {
 	public:
@@ -16,6 +19,7 @@ namespace InjecteeFuncs {
 		static int isProcess(DWORD processID, TCHAR *process_name);
 		static int compare(const void * a, const void * b);
 		static int getNextProcessID(int current_process_id);
+
 	};
 }
 #endif
